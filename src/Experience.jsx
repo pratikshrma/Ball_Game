@@ -5,7 +5,6 @@ import { Physics } from '@react-three/rapier'
 import { Perf } from 'r3f-perf'
 import Player from './Player.jsx'
 import useGame from './stores/useGame.js'
-import Effects from './Effects.jsx'
 
 export default function Experience() {
     const blockCount = useGame((state) => state.blockCount)
@@ -19,7 +18,6 @@ export default function Experience() {
             <Lights />
             <Level count={blockCount} seed={blockSeed} />
             <Player />
-            <Effects />
         </Physics>
     </>
 }
