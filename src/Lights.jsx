@@ -4,7 +4,6 @@ import { useRef } from "react"
 export default function Lights() {
     const lightRef = useRef()
     useFrame((state, delta) => {
-        console.log(state.camera.position)
         lightRef.current.position.z = state.camera.position.z + 4
         lightRef.current.target.position.z = state.camera.position.z + 4
         lightRef.current.target.updateMatrixWorld()

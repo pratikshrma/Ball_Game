@@ -9,10 +9,10 @@ const root = ReactDOM.createRoot(document.querySelector('#root'))
 root.render(
     <KeyboardControls
         map={[
-            { name: 'forward', keys: ['ArrowUp', 'keyW'] },
-            { name: 'backward', keys: ['ArrowDown', 'keyS'] },
-            { name: 'leftward', keys: ['ArrowLeft', 'keyA'] },
-            { name: 'rightward', keys: ['ArrowRight', 'keyD'] },
+            { name: 'forward', keys: ['ArrowUp', 'w'] },
+            { name: 'backward', keys: ['ArrowDown', 's'] },
+            { name: 'leftward', keys: ['ArrowLeft', 'a'] },
+            { name: 'rightward', keys: ['ArrowRight', 'd'] },
             { name: 'jump', keys: ['Space'] },
         ]}
     >
@@ -20,7 +20,7 @@ root.render(
         <Canvas
             shadows
             camera={{
-                fov: 55,
+                fov: 45,
                 near: 0.1,
                 far: 200,
                 position: [0, 3, -7]
@@ -28,6 +28,6 @@ root.render(
         >
             <Experience />
         </Canvas>
-        {/* <Interface /> */}
+        <Interface />
     </KeyboardControls>
 )

@@ -3,9 +3,16 @@ import { RigidBody, useRapier } from '@react-three/rapier'
 import { useEffect, useRef, useState } from 'react'
 import { useKeyboardControls } from '@react-three/drei'
 import * as THREE from 'three'
+import useGame from './stores/useGame'
+
+// console.log(useGame.subscribe)
 
 const Player = () => {
     const [subscribeKeys, getKeys] = useKeyboardControls()
+    const start = useGame((state) => state.start)
+    const end = useGame(state => state.end)
+    const blockCount = useGame(state => state.blockCount)
+    const restart = useGame(state => state.restart)
 
     const body = useRef()
     const { rapier, world } = useRapier()
@@ -33,11 +40,37 @@ const Player = () => {
         }
     }
 
+    const reset = () => {
+        body.current.setTranslation({ x: 0, y: 1, z: 0 })
+        body.current.setLinvel({ x: 0, y: 0, z: 0 })
+        body.current.setAngvel({ x: 0, y: 0, z: 0 })
+    }
+
     useEffect(() => {
+
+        const unSubPhaseListener = useGame.subscribe(
+            (state) => { return state.phase },
+            (phase) => {
+                if (phase === 'ready') {
+                    reset()
+                }
+            }
+        )
+
         const unsubJump = subscribeKeys((state) => {
             return state.jump
         }, (value) => { jump() })
-        return () => unsubJump
+
+        const unsubscribeAnyKey = subscribeKeys(() => {
+            start()
+        })
+
+
+        return () => {
+            unsubJump()
+            unsubscribeAnyKey()
+            unSubPhaseListener()
+        }
     }, [])
 
     useFrame((state, delta) => {
@@ -74,14 +107,13 @@ const Player = () => {
         const bodyPosition = body.current.translation()
         const cameraPosition = new THREE.Vector3()
         cameraPosition.copy(bodyPosition)
-        cameraPosition.z -= 2.25
-        cameraPosition.y += 0.65
+        cameraPosition.z -= 3.25
+        cameraPosition.y += 0.5
 
         const cameraTarget = new THREE.Vector3()
         cameraTarget.copy(bodyPosition)
         cameraTarget.y -= 0.25
 
-        console.log(smoothedCameraPostion)
         smoothedCameraPostion.lerp(cameraPosition, 5 * delta)
         smoothedCameraTarget.lerp(cameraTarget, 5 * delta)
         // smoothedCameraPostion.lerp(cameraPosition, 0.1)
@@ -90,6 +122,16 @@ const Player = () => {
         state.camera.position.copy(smoothedCameraPostion)
         state.camera.lookAt(smoothedCameraTarget)
 
+        // Phases 
+        // console.log(bodyPosition)
+        if (bodyPosition.z > blockCount * 4 + 2) {
+            end()
+        }
+
+        // Now handle the fall
+        if (bodyPosition.y < -4) {
+            restart()
+        }
     })
 
 

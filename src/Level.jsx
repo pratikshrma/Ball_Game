@@ -2,8 +2,7 @@ import { useFrame } from '@react-three/fiber'
 import { RigidBody, CuboidCollider } from '@react-three/rapier'
 import { useState, useRef, useMemo } from 'react'
 import * as THREE from 'three'
-import { useGLTF } from '@react-three/drei'
-
+import { useGLTF, Float, Text } from '@react-three/drei'
 
 THREE.ColorManagement.legacyMode = false
 
@@ -23,6 +22,24 @@ const BlockStart = ({ position = [0, 0, 0] }) => {
                     {/*Why not this because this will create a box geo everytime we call this instead we just made it once  */}
                     {/* <meshStandardMaterial color="limegreen" /> */}
                 </mesh>
+                <Float
+                    rotationIntensity={0.25} // XYZ rotation intensity, defaults to 1
+                    floatIntensity={0.25}
+                    floatingRange={[0.05, 0.05]}
+                >
+                    <Text
+                        font='./bebas-neue-v9-latin-regular.woff'
+                        scale={0.35}
+                        rotation-y={Math.PI}
+                        maxWidth={0.25}
+                        textAlign='right'
+                        position={[-0.6, 0.25, -1]}
+                        color={"#2f2f2fff"}
+                    >
+                        Ball Racer
+                        <meshBasicMaterial toneMapped="false" />
+                    </Text>
+                </Float>
             </group>
         </>
     )
@@ -37,6 +54,17 @@ const BlockEnd = ({ position = [0, 0, 0] }) => {
     return (
         <>
             <group position={position}>
+                <Text
+                    font='./bebas-neue-v9-latin-regular.woff'
+                    scale={0.35}
+                    rotation-y={Math.PI}
+                    maxWidth={0.25}
+                    textAlign='right'
+                    position={[0, 1, -2]}
+                    color={"#2f2f2fff"}
+                >
+                    Finish
+                </Text>
                 <mesh geometry={boxGeometry} material={floor1Material} receiveShadow scale={[4, 0.2, 4]} position-y={-0.2}>
                     {/* <boxGeometry args={[4, 0.2, 4]} /> */}
                     {/*Why not this because this will create a box geo everytime we call this instead we just made it once  */}
@@ -160,7 +188,6 @@ export const BlockLameAxe = ({ position = [0, 0, 0] }) => {
 }
 
 export const Bounds = ({ length = 1 }) => {
-    console.log(length)
     return <>
         <RigidBody type='fixed' restitution={0.2} friction={0}>
             <mesh
@@ -196,7 +223,7 @@ export const Bounds = ({ length = 1 }) => {
         </RigidBody>
     </>
 }
-export default function Level({ count = 8, types = [BlockSpinner, BlockLimbo, BlockBlade, BlockLameAxe] }) {
+export default function Level({ count = 8, types = [BlockSpinner, BlockLimbo, BlockBlade, BlockLameAxe] }, seed = 0) {
 
     const blocks = useMemo(() => {
         const blocks = []
@@ -207,7 +234,7 @@ export default function Level({ count = 8, types = [BlockSpinner, BlockLimbo, Bl
         }
 
         return blocks
-    }, [count, types])
+    }, [count, types, seed])
 
     return (
         <>
