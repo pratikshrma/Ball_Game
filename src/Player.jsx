@@ -75,6 +75,8 @@ const Player = () => {
 
     useFrame((state, delta) => {
         const { leftward, rightward, backward, forward } = getKeys()
+        console.log(forward, rightward, backward, leftward)
+
         const impulse = { x: 0, y: 0, z: 0 }
         const torque = { x: 0, y: 0, z: 0 }
 
@@ -98,8 +100,8 @@ const Player = () => {
             torque.z -= torqueStrength
         }
 
-        body.current.applyImpulse(impulse)
-        body.current.applyTorqueImpulse(torque)
+        body.current.applyImpulse(impulse, true)
+        body.current.applyTorqueImpulse(torque, true)
 
 
         // Camera
