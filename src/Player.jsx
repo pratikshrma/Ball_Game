@@ -1,7 +1,7 @@
 import { useFrame } from '@react-three/fiber'
 import { RigidBody, useRapier } from '@react-three/rapier'
 import { useEffect, useRef, useState } from 'react'
-import { useKeyboardControls } from '@react-three/drei'
+import { useKeyboardControls, Outlines } from '@react-three/drei'
 import * as THREE from 'three'
 import useGame from './stores/useGame'
 
@@ -150,6 +150,7 @@ const Player = () => {
             <mesh castShadow>
                 <icosahedronGeometry args={[0.3, 1]} />
                 <meshStandardMaterial flatShading color="mediumPurple" />
+                {/* <Outlines thickness={0.1} color={"#ffffff"} /> */}
             </mesh>
         </RigidBody>
     )

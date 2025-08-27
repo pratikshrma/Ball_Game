@@ -8,19 +8,16 @@ THREE.ColorManagement.legacyMode = false
 
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
 
-const floor1Material = new THREE.MeshStandardMaterial({ color: "limeGreen" })
-const floor2Material = new THREE.MeshStandardMaterial({ color: "greenYellow" })
-const obstacleMaterial = new THREE.MeshStandardMaterial({ color: "orangered" })
-const wallMaterial = new THREE.MeshStandardMaterial({ color: "slategrey" })
+const floor1Material = new THREE.MeshStandardMaterial({ color: "#111111", roughness: 0, metalness: 0 })
+const floor2Material = new THREE.MeshStandardMaterial({ color: "#222222", roughness: 0, metalness: 0 })
+const obstacleMaterial = new THREE.MeshStandardMaterial({ color: "#ff0000", roughness: 0, metalness: 0.5 })
+const wallMaterial = new THREE.MeshStandardMaterial({ color: "#887777", roughness: 0, metalness: 0 })
 
 const BlockStart = ({ position = [0, 0, 0] }) => {
     return (
         <>
             <group position={position}>
                 <mesh geometry={boxGeometry} material={floor1Material} receiveShadow scale={[4, 0.2, 4]} position-y={-0.2}>
-                    {/* <boxGeometry args={[4, 0.2, 4]} /> */}
-                    {/*Why not this because this will create a box geo everytime we call this instead we just made it once  */}
-                    {/* <meshStandardMaterial color="limegreen" /> */}
                 </mesh>
                 <Float
                     rotationIntensity={0.25} // XYZ rotation intensity, defaults to 1
@@ -34,10 +31,11 @@ const BlockStart = ({ position = [0, 0, 0] }) => {
                         maxWidth={0.25}
                         textAlign='right'
                         position={[-0.6, 0.25, -1]}
-                        color={"#2f2f2fff"}
+                        color={"#2f2f2f"}
+                        outlineWidth={0.005}
+                        outlineColor={"#ffffff"}
                     >
                         Ball Racer
-                        <meshBasicMaterial toneMapped="false" />
                     </Text>
                 </Float>
             </group>
@@ -61,7 +59,9 @@ const BlockEnd = ({ position = [0, 0, 0] }) => {
                     maxWidth={0.25}
                     textAlign='right'
                     position={[0, 1, -2]}
-                    color={"#2f2f2fff"}
+                    color={"#2f2f2f"}
+                    outlineWidth={0.005}
+                    outlineColor={"#ffffff"}
                 >
                     Finish
                 </Text>
@@ -167,6 +167,7 @@ export const BlockLameAxe = ({ position = [0, 0, 0] }) => {
     const [timeOffset] = useState(() => Math.random() * Math.PI * 2)
 
     useFrame((state, delta) => {
+        if (!obstacle.current) return
         const time = state.clock.elapsedTime
         const x = (Math.sin(time + timeOffset) * 1.1)
         obstacle.current.setNextKinematicTranslation({ x: x, y: position[1], z: position[2] })
