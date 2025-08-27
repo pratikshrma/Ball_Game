@@ -192,14 +192,14 @@ export const Bounds = ({ length = 1 }) => {
     return <>
         <RigidBody type='fixed' restitution={0.2} friction={0}>
             <mesh
-                position={[2.10, 0.70, (length * 2) + 2]}
+                position={[2.15, 0.50, (length * 2) + 2]}
                 geometry={boxGeometry}
                 material={wallMaterial}
                 scale={[0.3, 1.5, ((length + 2) * 4)]}
                 castShadow
             />
             <mesh
-                position={[-2.10, 0.70, (length * 2) + 2]}
+                position={[-2.15, 0.50, (length * 2) + 2]}
                 geometry={boxGeometry}
                 material={wallMaterial}
                 scale={[0.3, 1.5, ((length + 2) * 4)]}
@@ -207,7 +207,7 @@ export const Bounds = ({ length = 1 }) => {
                 castShadow
             />
             <mesh
-                position={[0, 0.7, (length + 1) * 4 + 2]}
+                position={[0, 0.5, (length + 1) * 4 + 2]}
                 geometry={boxGeometry}
                 material={wallMaterial}
                 scale={[4, 1.5, 0.3]}
