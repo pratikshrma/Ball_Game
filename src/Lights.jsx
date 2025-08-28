@@ -16,7 +16,7 @@ export default function Lights() {
             castShadow
             position={[4, 4, 1]}
             intensity={3.5}
-            shadow-mapSize={[3024, 1024]}
+            shadow-mapSize={[512, 512]}
             shadow-camera-near={1}
             shadow-camera-far={100}
             shadow-camera-top={10}
